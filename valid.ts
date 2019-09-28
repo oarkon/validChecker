@@ -2,17 +2,19 @@ function valid(value: number | boolean | string, pattern?: Object) {
     let isValid = [];
     if (typeof value != "undefined") {
         if (pattern) {
-            Object.keys(pattern).map(restriction => {                
+            Object.keys(pattern).map((restriction : string) => {                
                 /* if inside of object any value is false, its useless, so we ignore that value*/
                 if (typeof pattern[restriction] == "boolean" && !pattern[restriction]) return delete pattern[restriction];
                 /* we need only "true" values */
-                let result = executeFunctionByName(restriction, window, value, pattern[restriction])
+                let result = executeFunctionByName(restriction, window, value)
                 if(!result) throw new Error(`${restriction} hatasi!`)
             })
-            /** Everything went correct , so we are fine [validation OK!] */
+        /** Everything went correct , so we are fine [validation OK!] */
+            console.log('Everything is OK!');
             return true;
         } else {
             /* Pattern is not exist ! So we dont need to do anything*/
+            console.log('Pattern yok');
             return true;
         }
     } else throw new Error("Value is not defined!");  
@@ -47,7 +49,7 @@ function IsNumber(value) {
 
 function IsString(value) {
     if (value instanceof String || typeof value === "string") return true
-      else return false;    
+    else return false;    
 }
 
 valid("3", {IsNumber:false , IsString:true})
